@@ -30,25 +30,34 @@ import XCTest
 @testable import DataStructures
 
 protocol BoardGameManager {
-  associatedtype Player
-  mutating func nextPlayer() -> Player?
+    associatedtype Player
+    mutating func nextPlayer() -> Player?
+}
+
+extension QueueStack: BoardGameManager {
+    
+    @discardableResult
+    mutating func nextPlayer() -> T? {
+        return dequeue()
+    }
+    
 }
 
 //TODO: Extend one (or both!) queue implementation(s) to adopt the BoardGameManager protocol
 
 final class ChallengeTestCase: XCTestCase {
-  func test_playerOrder() {
-    var queue = QueueStack<String>()
-    queue.enqueue("Kirby")
-    queue.enqueue("Samus")
-    queue.enqueue("Pikachu")
-    queue.enqueue("Toon Ozma")
-    
-    XCTAssertEqual(queue.peek, "Kirby")
-    queue.nextPlayer()
-    queue.nextPlayer()
-    XCTAssertEqual(queue.peek, "Pikachu")
-    queue.nextPlayer()
-    XCTAssertEqual(queue.peek, "Toon Ozma")
-  }
+    func test_playerOrder() {
+        var queue = QueueStack<String>()
+        queue.enqueue("Kirby")
+        queue.enqueue("Samus")
+        queue.enqueue("Pikachu")
+        queue.enqueue("Toon Ozma")
+        
+        XCTAssertEqual(queue.peek, "Kirby")
+        queue.nextPlayer()
+        queue.nextPlayer()
+        XCTAssertEqual(queue.peek, "Pikachu")
+        queue.nextPlayer()
+        XCTAssertEqual(queue.peek, "Toon Ozma")
+    }
 }
